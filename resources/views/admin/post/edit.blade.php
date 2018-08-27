@@ -6,7 +6,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Post Create
+                Post Updated
             </h1>
         </section>
 
@@ -19,24 +19,25 @@
                         <div class="box-header with-border">
                             <h3 class="box-title">Titles</h3>
                         </div>
-                        @include('inc.messages')
-                        <!-- /.box-header -->
+                    @include('inc.messages')
+                    <!-- /.box-header -->
                         <!-- form start -->
-                        <form role="form" action="{{route('post.store')}}" method="post" enctype="multipart/form-data">
+                        <form role="form" action="{{route('post.update', $post->id)}}" method="post" enctype="multipart/form-data">
                             @csrf
+                            @method('PUT')
                             <div class="box-body">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="title">Title</label>
-                                        <input type="text" class="form-control" id="title" name="title" placeholder="Enter title">
+                                        <input type="text" class="form-control" id="title" name="title" placeholder="Enter title" value="{{$post->title}}">
                                     </div>
                                     <div class="form-group">
                                         <label for="sub_title">Sub Title</label>
-                                        <input type="text" name="sub_title" class="form-control" id="sub_title" placeholder="Sub title">
+                                        <input type="text" name="sub_title" class="form-control" id="sub_title" placeholder="Sub title" value="{{$post->sub_title}}">
                                     </div>
                                     <div class="form-group">
                                         <label for="slug">Slug</label>
-                                        <input type="text" name="slug" class="form-control" id="slug" placeholder="slug">
+                                        <input type="text" name="slug" class="form-control" id="slug" placeholder="slug" value="{{$post->slug}}">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -46,7 +47,7 @@
                                     </div>
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="status"> Publish
+                                            <input type="checkbox" name="status" @if($post->status == 1) checked @endif> Publish
                                         </label>
                                     </div>
                                 </div>
@@ -69,11 +70,11 @@
                                 <!-- /.box-header -->
                                 <div class="box-body pad">
                                     <textarea class="textarea" placeholder="Place some text here" name="body"
-                          style="width: 100%; height: 300px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                                              style="width: 100%; height: 300px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">{{$post->body}}</textarea>
                                 </div>
                             </div>
                             <div class="box-footer">
-                                <button type="submit" name="submit" class="btn btn-primary btn-lg"><span class="fa fa-upload"></span> Submit</button>
+                                <button type="submit" name="submit" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-upload"></span> Submit</button>
                                 <a class="btn btn-warning btn-lg" href="{{route('post.index')}}"><span class="fa fa-backward"></span> Back</a>
                             </div>
                         </form>

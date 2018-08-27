@@ -1,86 +1,98 @@
 @extends('admin.layouts.app')
 
+@section('styles')
+    <link rel="stylesheet" href="{{asset('admin/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
+@endsection
+
 @section('content')
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                Dashboard
-                <small>Control panel</small>
-            </h1>
-            <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li class="active">Dashboard</li>
-            </ol>
-        </section>
-
         <!-- Main content -->
         <section class="content">
-            <!-- Small boxes (Stat box) -->
-            <div class="row">
-                <div class="col-lg-3 col-xs-6">
-                    <!-- small box -->
-                    <div class="small-box bg-aqua">
-                        <div class="inner">
-                            <h3>150</h3>
-
-                            <p>New Orders</p>
+            <div class="box">
+                <div class="box-header">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a class="btn btn-success btn-lg pull-right" href="{{route('category.create')}}"><span class="fa fa-plus"></span> Add Category</a>
+                            <h3 class="box-title">All Categories</h3>
                         </div>
-                        <div class="icon">
-                            <i class="ion ion-bag"></i>
-                        </div>
-                        <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
-                <!-- ./col -->
-                <div class="col-lg-3 col-xs-6">
-                    <!-- small box -->
-                    <div class="small-box bg-green">
-                        <div class="inner">
-                            <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-                            <p>Bounce Rate</p>
-                        </div>
-                        <div class="icon">
-                            <i class="ion ion-stats-bars"></i>
-                        </div>
-                        <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
+            @include('inc.messages')
+            <!-- /.box-header -->
+                <div class="box-body">
+                    @if(count($categories) > 0)
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead class="bg-primary">
+                            <tr>
+                                <th>S.No</th>
+                                <th>Category Name</th>
+                                <th>Slug</th>
+                                <th>Created At</th>
+                                <th>Updated At</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            @foreach($categories as $key => $category)
+                                <tbody>
+                                <tr>
+                                    <td>{{$key + 1}}</td>
+                                    <td>{{$category->name}}</td>
+                                    <td>{{$category->slug}}</td>
+                                    <td>{{$category->created_at ? $category->created_at->diffForHumans() : 'No date'}}</td>
+                                    <td>{{$category->updated_at ? $category->updated_at->diffForHumans() : 'No date'}}</td>
+                                    <td><a href="{{route('category.edit', $category->id)}}" class="btn btn-warning btn-flat"><span class="glyphicon glyphicon-edit"></span></a>
+                                        <form id="delete-form-{{$category->id}}" style="display: none" action="{{route('category.destroy', $category->id)}}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
+                                        <a href="" onclick="
+                                                        if (confirm('Are you sure, To delete this record?')){
+                                                            event.preventDefault();
+                                                            document.getElementById('delete-form-{{$category->id}}').submit();
+                                                        } else {
+                                                            event.preventDefault();
+                                                }
+                                                " class="btn btn-danger btn-flat"><span class="glyphicon glyphicon-trash"></span></a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            @endforeach
+                            <tfoot class="bg-warning">
+                            <tr>
+                                <th>S.No</th>
+                                <th>Category Name</th>
+                                <th>Slug</th>
+                                <th>Created At</th>
+                                <th>Updated At</th>
+                                <th>Action</th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    @else
+                        <p class="lead">No category found</p>
+                    @endif
                 </div>
-                <!-- ./col -->
-                <div class="col-lg-3 col-xs-6">
-                    <!-- small box -->
-                    <div class="small-box bg-yellow">
-                        <div class="inner">
-                            <h3>44</h3>
-
-                            <p>User Registrations</p>
-                        </div>
-                        <div class="icon">
-                            <i class="ion ion-person-add"></i>
-                        </div>
-                        <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-                <!-- ./col -->
-                <div class="col-lg-3 col-xs-6">
-                    <!-- small box -->
-                    <div class="small-box bg-red">
-                        <div class="inner">
-                            <h3>65</h3>
-
-                            <p>Unique Visitors</p>
-                        </div>
-                        <div class="icon">
-                            <i class="ion ion-pie-graph"></i>
-                        </div>
-                        <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-                <!-- ./col -->
+                <!-- /.box-body -->
             </div>
             <!-- /.row -->
         </section>
         <!-- /.content -->
     </div>
+@endsection
+@section('scripts')
+    <script src="{{asset('admin/bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('admin/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
+    <script>
+        $(function () {
+            $('#example1').DataTable()
+            $('#example2').DataTable({
+                'paging'      : true,
+                'lengthChange': false,
+                'searching'   : false,
+                'ordering'    : true,
+                'info'        : true,
+                'autoWidth'   : false
+            })
+        })
+    </script>
 @endsection

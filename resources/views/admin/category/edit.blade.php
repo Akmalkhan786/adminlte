@@ -5,8 +5,9 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Tag Create
+                Category Updated
             </h1>
+            </ol>
         </section>
 
         <!-- Main content -->
@@ -16,26 +17,27 @@
                     <!-- general form elements -->
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Tags</h3>
+                            <h3 class="box-title">Categories</h3>
                         </div>
-                        @include('inc.messages')
-                        <!-- /.box-header -->
+                    @include('inc.messages')
+                    <!-- /.box-header -->
                         <!-- form start -->
-                        <form role="form" action="{{route('tag.store')}}" method="post">
+                        <form role="form" action="{{route('category.update',$category->id)}}" method="post">
                             @csrf
+                            @method('PUT')
                             <div class="box-body">
                                 <div class="form-group">
                                     <label for="name">Name</label>
-                                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter name">
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" value="{{$category->name}}">
                                 </div>
                                 <div class="form-group">
                                     <label for="slug">Slug</label>
-                                    <input type="text" name="slug" class="form-control" id="slug" placeholder="slug">
+                                    <input type="text" name="slug" class="form-control" id="slug" placeholder="slug" value="{{$category->slug}}">
                                 </div>
                             </div>
                             <div class="box-footer">
                                 <button type="submit" class="btn btn-primary btn-lg"><span class="fa fa-upload"></span> Submit</button>
-                                <a href="{{route('tag.index')}}" class="btn btn-warning btn-lg"><span class="fa fa-backward"></span> Back</a>
+                                <a href="{{route('category.index')}}" class="btn btn-warning btn-lg"><span class="fa fa-backward"></span> Back</a>
                             </div>
                         </form>
                     </div>

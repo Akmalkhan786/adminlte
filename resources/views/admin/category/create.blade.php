@@ -24,9 +24,11 @@
                         <div class="box-header with-border">
                             <h3 class="box-title">Categories</h3>
                         </div>
+                        @include('inc.messages')
                         <!-- /.box-header -->
                         <!-- form start -->
-                        <form role="form">
+                        <form role="form" action="{{route('category.store')}}" method="post">
+                            @csrf
                             <div class="box-body">
                                 <div class="form-group">
                                     <label for="name">Name</label>
@@ -38,7 +40,8 @@
                                 </div>
                             </div>
                             <div class="box-footer">
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" class="btn btn-primary btn-lg"><span class="fa fa-upload"></span> Submit</button>
+                                <a href="{{route('category.index')}}" class="btn btn-warning btn-lg"><span class="fa fa-backward"></span> Back</a>
                             </div>
                         </form>
                     </div>

@@ -5,7 +5,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                Tag Create
+                Tag Update
             </h1>
         </section>
 
@@ -18,19 +18,20 @@
                         <div class="box-header with-border">
                             <h3 class="box-title">Tags</h3>
                         </div>
-                        @include('inc.messages')
-                        <!-- /.box-header -->
+                    @include('inc.messages')
+                    <!-- /.box-header -->
                         <!-- form start -->
-                        <form role="form" action="{{route('tag.store')}}" method="post">
+                        <form role="form" action="{{route('tag.update', $tag->id)}}" method="post">
                             @csrf
+                            @method('PUT')
                             <div class="box-body">
                                 <div class="form-group">
                                     <label for="name">Name</label>
-                                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter name">
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" value="{{$tag->name}}">
                                 </div>
                                 <div class="form-group">
                                     <label for="slug">Slug</label>
-                                    <input type="text" name="slug" class="form-control" id="slug" placeholder="slug">
+                                    <input type="text" name="slug" class="form-control" id="slug" placeholder="slug" value="{{$tag->slug}}">
                                 </div>
                             </div>
                             <div class="box-footer">

@@ -15,8 +15,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
-        return view('admin.post.index');
+        $posts = Post::orderBy('id', 'desc')->get();
+        return view('admin.post.index', compact('posts'));
     }
 
     /**
@@ -73,7 +73,8 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::findOrFail($id)->first();
+        return view('admin.post.edit', compact('post'));
     }
 
     /**
@@ -85,7 +86,19 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required',
+            'sub_title' => 'required',
+            'slug' => 'required',
+            'body' => 'required'
+        ]);
+        $post = Post::findOrFail($id);
+        $post->title = $request->input('title');
+        $post->sub_title = $request->input('sub_title');
+        $post->slug = $request->input('slug');
+        $post->body = $request->input('body');
+        $post->save();
+        return redirect(route('post.index'))->with('success', 'Post Updated');
     }
 
     /**
@@ -96,6 +109,8 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $post->delete();
+        return redirect()->back()->with('success', 'Post Deleted');
     }
 }

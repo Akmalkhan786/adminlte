@@ -25,7 +25,7 @@
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">MAIN NAVIGATION</li>
-            <li class="active"><a href="{{route('post.index')}}"><i class="fa fa-newspaper-o"></i> Posts</a></li>
+            <li><a href="{{route('post.index')}}"><i class="fa fa-newspaper-o"></i> Posts</a></li>
             <li><a href="{{route('category.index')}}"><i class="fa fa-folder-open-o"></i> Categories</a></li>
             <li><a href="{{route('tag.index')}}"><i class="fa fa-tags"></i> Tags</a></li>
             <li><a href="{{route('user.index')}}"><i class="fa fa-user-circle-o"></i> Users</a></li>

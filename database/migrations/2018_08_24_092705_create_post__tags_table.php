@@ -13,7 +13,7 @@ class CreatePostTagsTable extends Migration
      */
     public function up()
     {
-        Schema::create('post__tags', function (Blueprint $table) {
+        Schema::create('post__tag', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('post_id');
             $table->integer('tag_id');
