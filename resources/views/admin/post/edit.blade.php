@@ -13,7 +13,7 @@
         <!-- Main content -->
         <section class="content">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-9">
                     <!-- general form elements -->
                     <div class="box box-primary">
                         <div class="box-header with-border">
@@ -74,12 +74,15 @@
                                 </div>
                             </div>
                             <div class="box-footer">
-                                <button type="submit" name="submit" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-upload"></span> Submit</button>
+                                <button type="submit" name="submit" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-upload  "></span> Submit</button>
                                 <a class="btn btn-warning btn-lg" href="{{route('post.index')}}"><span class="fa fa-backward"></span> Back</a>
                             </div>
                         </form>
                     </div>
                     <!-- /.box -->
+                </div>
+                <div class="col-md-3">
+                    <img src="{{Storage::disk('local')->url($post->image)}}" class="img-thumbnail rounded">
                 </div>
                 <!-- /.col-->
             </div>

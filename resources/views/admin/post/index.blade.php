@@ -28,9 +28,11 @@
                                 <th>Title</th>
                                 <th>Sub Title</th>
                                 <th>Slug</th>
+                                <th>Image</th>
                                 <th>Created At</th>
                                 <th>Updated At</th>
-                                <th>Action</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
                                 {{--<th>Delete</th>--}}
                             </tr>
                             </thead>
@@ -41,10 +43,17 @@
                                     <td>{{$post->title}}</td>
                                     <td>{{$post->sub_title}}</td>
                                     <td>{{$post->slug}}</td>
+                                    <td>
+                                        @if($post->image)
+                                            <img height="50" src="{{Storage::disk('local')->url($post->image)}}">
+                                        @else
+                                            <p>No image</p>
+                                        @endif
+                                    </td>
                                     <td>{{$post->created_at ? $post->created_at->diffForHumans() : 'No date'}}</td>
                                     <td>{{$post->updated_at ? $post->updated_at->diffForHumans() : 'No date'}}</td>
-                                    <td><a class="btn btn-warning btn-flat" href="{{route('post.edit', $post->id)}}"><span class="glyphicon glyphicon-edit"></span></a>
-                                        <form style="display: none;" id="delete-form-{{$post->id}}" action="{{route('post.destroy', $post->id)}}" method="post">
+                                    <td><a class="btn btn-warning btn-flat" href="{{route('post.edit', $post->id)}}"><span class="glyphicon glyphicon-edit"></span></a></td>
+                                     <td>   <form style="display: none;" id="delete-form-{{$post->id}}" action="{{route('post.destroy', $post->id)}}" method="post">
                                             @csrf
                                             @method('DELETE')
                                         </form>
