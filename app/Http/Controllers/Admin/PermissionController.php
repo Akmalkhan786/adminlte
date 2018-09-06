@@ -2,26 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Model\User\Tag;
+use App\Model\Admin\Permission;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class TagController extends Controller
+class PermissionController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct()
-    {
-        $this->middleware('auth:admin');
-    }
-
     public function index()
     {
-        $tags = Tag::orderBy('id', 'desc')->get();
-        return view('admin.tag.index', compact('tags'));
+        $permissions = Permission::orderBy('id', 'desc')->paginate(5);
+        return view('admin.permission.index', compact('permissions'));
     }
 
     /**
@@ -31,8 +26,7 @@ class TagController extends Controller
      */
     public function create()
     {
-        //
-        return view('admin.tag.create');
+        return view('admin.permission.create');
     }
 
     /**
@@ -43,22 +37,21 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $this->validate($request, [
-            'name' => 'required',
-            'slug' => 'required'
+            'name' => 'required|max:50|unique:permissions',
+            'for' => 'required'
         ]);
-        $tag = new Tag;
-        $tag->name = $request->input('name');
-        $tag->slug = $request->input('slug');
-        $tag->save();
-        return redirect(route('tag.index'))->with('success', 'Tag Created');
+        $permission = new Permission;
+        $permission->name = $request->input('name');
+        $permission->for = $request->input('for');
+        $permission->save();
+        return redirect(route('permission.index'))->with('success', 'Permission Created');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Permission  $permission
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -69,45 +62,44 @@ class TagController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Permission  $permission
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $tag = Tag::findOrFail($id)->first();
-        return view('admin.tag.edit', compact('tag'));
+        $permission = Permission::findOrFail($id);
+        return view('admin.permission.edit', compact('permission'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Permission  $permission
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         $this->validate($request, [
             'name' => 'required',
-            'slug' => 'required'
+            'for' => 'required'
         ]);
-        $tag = Tag::findOrFail($id);
-        $tag->name = $request->input('name');
-        $tag->slug = $request->input('slug');
-        $tag->save();
-        return redirect(route('tag.index'))->with('success', 'Tag Updated');
+        $permission = Permission::findOrFail($id);
+        $permission->name = $request->input('name');
+        $permission->for = $request->input('for');
+        $permission->save();
+        return redirect(route('permission.index'))->with('success', 'Permission Updated');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Permission  $permission
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $tag = Tag::findOrFail($id);
-        $tag->delete();
-        return redirect()->back()->with('success', 'Tag Deleted');
+        Permission::findOrFail($id)->delete();
+        return redirect()->back()->with('success', 'Permission Deleted');
     }
 }

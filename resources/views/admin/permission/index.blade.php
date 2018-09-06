@@ -12,57 +12,45 @@
                 <div class="box-header">
                     <div class="row">
                         <div class="col-md-12">
-                            <a class="btn btn-success btn-lg pull-right" href="{{route('post.create')}}"><span class="fa fa-plus"></span> Add Post</a>
-                            <h3 class="box-title">All Posts</h3>
+                            <a class="btn btn-success btn-lg pull-right" href="{{route('permission.create')}}"><span class="fa fa-plus"></span> Add Permission</a>
+                            <h3 class="box-title">All Permissions</h3>
                         </div>
                     </div>
                 </div>
-            @include('inc.messages')
-            <!-- /.box-header -->
+                @include('inc.messages')
+                <!-- /.box-header -->
                 <div class="box-body">
-                    @if(count($posts) > 0)
+                    @if(count($permissions) > 0)
                         <table id="example1" class="table table-bordered table-striped">
                             <thead class="bg-primary">
                             <tr>
                                 <th>S.No</th>
-                                <th>Title</th>
-                                <th>Sub Title</th>
-                                <th>Slug</th>
-                                <th>Image</th>
+                                <th>Permission Name</th>
+                                <th>Permission For</th>
                                 <th>Created At</th>
                                 <th>Updated At</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
-                                {{--<th>Delete</th>--}}
+                                <th>Action</th>
                             </tr>
                             </thead>
-                            @foreach($posts as $key => $post)
+                            @foreach($permissions as $key => $permission)
                                 <tbody>
                                 <tr>
                                     <td>{{$key + 1}}</td>
-                                    <td>{{$post->title}}</td>
-                                    <td>{{$post->sub_title}}</td>
-                                    <td>{{$post->slug}}</td>
-                                    <td>
-                                        @if($post->image)
-                                            <img height="50" src="/uploads/post/{{$post->image}}">
-                                        @else
-                                            <p>No image</p>
-                                        @endif
-                                    </td>
-                                    <td>{{$post->created_at ? $post->created_at->diffForHumans() : 'No date'}}</td>
-                                    <td>{{$post->updated_at ? $post->updated_at->diffForHumans() : 'No date'}}</td>
-                                    <td><a class="btn btn-warning btn-flat" href="{{route('post.edit', $post->id)}}"><span class="glyphicon glyphicon-edit"></span></a></td>
-                                     <td>   <form style="display: none;" id="delete-form-{{$post->id}}" action="{{route('post.destroy', $post->id)}}" method="post">
+                                    <td>{{$permission->name}}</td>
+                                    <td>{{$permission->for}}</td>
+                                    <td>{{$permission->created_at ? $permission->created_at->diffForHumans() : 'No date'}}</td>
+                                    <td>{{$permission->updated_at ? $permission->updated_at->diffForHumans() : 'No date'}}</td>
+                                    <td><a href="{{route('permission.edit', $permission->id)}}" class="btn btn-warning btn-flat"><span class="glyphicon glyphicon-edit"></span></a>
+                                        <form id="delete-form-{{$permission->id}}" style="display: none;" action="{{route('permission.destroy', $permission->id)}}" method="post">
                                             @csrf
                                             @method('DELETE')
                                         </form>
                                         <a href="" onclick="
-                                                    if(confirm('Are you sure, To delete this record?')){
-                                                        event.preventDefault();
-                                                        document.getElementById('delete-form-{{$post->id}}').submit();
-                                                    } else {
-                                                        event.preventDefault();
+                                                      if (confirm('Are you sure, To delete this record?')){
+                                                          event.preventDefault();
+                                                          document.getElementById('delete-form-{{$permission->id}}').submit();
+                                                      } else {
+                                                          event.preventDefault();
                                                 }
                                                 " class="btn btn-danger btn-flat"><span class="glyphicon glyphicon-trash"></span></a>
                                     </td>
@@ -72,23 +60,21 @@
                             <tfoot class="bg-warning">
                             <tr>
                                 <th>S.No</th>
-                                <th>Title</th>
-                                <th>Sub Title</th>
-                                <th>Slug</th>
+                                <th>Permission Name</th>
+                                <th>Permission For</th>
                                 <th>Created At</th>
                                 <th>Updated At</th>
                                 <th>Action</th>
-                                {{--<th>Delete</th>--}}
                             </tr>
                             </tfoot>
                         </table>
                     @else
-                        <p class="lead">No post found</p>
+                        <p class="lead">No permission found</p>
                     @endif
                 </div>
                 <div class="row">
                     <div class="col-md-offset-1">
-                        {{$posts->links()}}
+                        {{$permissions->links()}}
                     </div>
                 </div>
                 <!-- /.box-body -->

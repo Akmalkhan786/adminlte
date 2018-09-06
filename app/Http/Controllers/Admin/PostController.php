@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Model\User\Category;
 use App\Model\User\Post;
 use App\Model\User\Tag;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -15,9 +16,14 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
+
     public function index()
     {
-        $posts = Post::orderBy('id', 'desc')->get();
+        $posts = Post::orderBy('id', 'desc')->paginate(5);
         return view('admin.post.index', compact('posts'));
     }
 
@@ -46,22 +52,29 @@ class PostController extends Controller
             'sub_title' => 'required',
             'slug' => 'required',
             'body' => 'required',
-            'image' => 'required'
+            'image' => 'required|mimes:jpeg,jpg,bmp,png'
         ]);
-        if ($request->hasFile('image')){
-            $imageName = $request->image->store('public/images');
+        $image = $request->file('image');
+        if (isset($image)){
+            $currentDate = Carbon::now()->toDateString();
+            $imageName = $currentDate .'-'. time() .'-'. uniqid() .'-'. $image->getClientOriginalExtension();
+            if (!file_exists('uploads/post')){
+                mkdir('uploads/post', 077, true);
+            }
+            $image->move('uploads/post', $imageName);
+        } else {
+            $imageName = 'default.png';
         }
         $post = new Post;
         $post->title = $request->input('title');
         $post->sub_title = $request->input('sub_title');
         $post->slug = $request->input('slug');
         $post->body = $request->input('body');
+        $post->status = $request->input('status');
         $post->image = $imageName;
-        $tags = $request->get('tags');
-        $categories = $request->get('categories');
-//        $post->tags()->attach($tags);
-//        $post->categories->sync($categories);
         $post->save();
+        $post->tags()->sync($request->tags);
+        $post->categories()->sync($request->categories);
         return redirect(route('post.index'))->with('success', 'Post Added');
     }
 
@@ -84,8 +97,10 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $post = Post::findOrFail($id);
-        return view('admin.post.edit', compact('post'));
+        $post = Post::with('tags', 'categories')->where('id', $id)->first();
+        $tags = Tag::all();
+        $categories = Category::all();
+        return view('admin.post.edit', compact('post', 'tags', 'categories'));
     }
 
     /**
@@ -101,19 +116,30 @@ class PostController extends Controller
             'title' => 'required',
             'sub_title' => 'required',
             'slug' => 'required',
-            'body' => 'required',
-            'image' => 'required'
+            'body' => 'required'
         ]);
-        if ($request->hasFile('image')){
-            $imageName = $request->image->store('public/images');
-        }
         $post = Post::findOrFail($id);
+        $image = $request->file('image');
+        if (isset($image)){
+            $currentDate = Carbon::now()->toDateString();
+            $imageName = $currentDate .'-'. time() .'-'. uniqid() .'.'. $image->getClientOriginalExtension();
+            if (!file_exists('uploads/post')){
+                mkdir('uploads/post', 077, true);
+            }
+            unlink('uploads/post/'. $post->image);
+            $image->move('uploads/post', $imageName);
+        } else {
+            $imageName = $post->image;
+        }
         $post->image = $imageName;
         $post->title = $request->input('title');
         $post->sub_title = $request->input('sub_title');
         $post->slug = $request->input('slug');
         $post->body = $request->input('body');
+        $post->status = $request->input('status');
         $post->save();
+        $post->tags()->sync($request->tags);
+        $post->categories()->sync($request->categories);
         return redirect(route('post.index'))->with('success', 'Post Updated');
     }
 
@@ -126,6 +152,7 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post = Post::findOrFail($id);
+        unlink('uploads/post/'. $post->image);
         $post->delete();
         return redirect()->back()->with('success', 'Post Deleted');
     }

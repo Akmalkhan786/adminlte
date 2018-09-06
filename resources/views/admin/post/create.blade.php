@@ -52,7 +52,7 @@
                                     </div>
                                     <div class="checkbox pull-left">
                                         <label>
-                                            <input type="checkbox" name="status"> Publish
+                                            <input type="checkbox" name="status" value="1"> Publish
                                         </label>
                                     </div><br><br>
                                     <div class="form-group" style="margin-top: 20px">

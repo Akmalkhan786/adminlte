@@ -28,6 +28,8 @@
             <li><a href="{{route('post.index')}}"><i class="fa fa-newspaper-o"></i> Posts</a></li>
             <li><a href="{{route('category.index')}}"><i class="fa fa-folder-open-o"></i> Categories</a></li>
             <li><a href="{{route('tag.index')}}"><i class="fa fa-tags"></i> Tags</a></li>
+            <li><a href="{{route('role.index')}}"><span class="glyphicon glyphicon-ok-circle"></span> Roles</a></li>
+            <li><a href="{{route('permission.index')}}"><span class="glyphicon glyphicon-filter"></span> Permissions</a></li>
             <li><a href="{{route('user.index')}}"><i class="fa fa-user-circle-o"></i> Users</a></li>
         </ul>
     </section>

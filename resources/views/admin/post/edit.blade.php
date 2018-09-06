@@ -1,5 +1,9 @@
 @extends('admin.layouts.app')
 
+@section('styles')
+    <link rel="stylesheet" href="{{asset('admin/bower_components/select2/dist/css/select2.min.css')}}">
+@endsection
+
 @section('content')
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -42,13 +46,44 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="image">Image</label>
-                                        <input type="file" id="image" name="image">
+                                        <div class="pull-right">
+                                            <label for="image">Image</label>
+                                            <input type="file" id="image" name="image">
+                                        </div>
                                     </div>
-                                    <div class="checkbox">
+                                    <div class="checkbox pull-left">
                                         <label>
-                                            <input type="checkbox" name="status" @if($post->status == 1) checked @endif> Publish
+                                            <input type="checkbox" name="status" value="1" @if($post->status == 1) {{'checked'}} @endif> Publish
                                         </label>
+                                    </div><br><br>
+                                    <div class="form-group" style="margin-top: 20px">
+                                        <label>Select Tags</label>
+                                        <select name="tags[]" class="form-control select2 select2-hidden-accessible" multiple="" data-placeholder="Select a State" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                            @foreach($tags as $tag)
+                                                <option value="{{$tag->id}}"
+                                                        @foreach($post->tags as $postTag)
+                                                            @if($postTag->id == $tag->id)
+                                                                selected
+                                                            @endif
+                                                        @endforeach
+                                                >{{$tag->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Select Categories</label>
+                                        <select name="categories[]" class="form-control select2 select2-hidden-accessible" multiple="" data-placeholder="Select a State" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                            @foreach($categories as $category)
+                                                <option value="{{$category->id}}"
+                                                        @foreach($post->categories as $postCategory)
+                                                            @if($postCategory->id == $category->id)
+                                                                selected
+                                                            @endif
+                                                        @endforeach
+                                                >{{$category->name}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -82,7 +117,7 @@
                     <!-- /.box -->
                 </div>
                 <div class="col-md-3">
-                    <img src="{{Storage::disk('local')->url($post->image)}}" class="img-thumbnail rounded">
+                    <img src="/uploads/post/{{$post->image}}" class="img-thumbnail rounded">
                 </div>
                 <!-- /.col-->
             </div>
@@ -93,6 +128,12 @@
     <!-- /.content-wrapper -->
 @endsection
 @section('scripts')
+    <script src="{{asset('admin/bower_components/select2/dist/js/select2.full.min.js')}}"></script>
+    <script>
+        $(function () {
+            $('.select2').select2();
+        });
+    </script>
     <script>
         $(function () {
             $('.textarea').wysihtml5();

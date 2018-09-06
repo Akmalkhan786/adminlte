@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Model\Admin\Admin;
+use App\Model\Admin\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -12,10 +14,15 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
+
     public function index()
     {
-        //
-        return view('admin.user.index');
+        $users = Admin::all();
+        return view('admin.user.index', compact('users'));
     }
 
     /**
@@ -25,8 +32,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
-        return view('admin.user.create');
+        $roles = Role::all();
+        return view('admin.user.create', compact('roles'));
     }
 
     /**
@@ -37,7 +44,11 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required'
+        ]);
     }
 
     /**

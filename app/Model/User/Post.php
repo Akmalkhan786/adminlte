@@ -10,10 +10,10 @@ class Post extends Model
       'title', 'sub_title', 'slug', 'body', 'status', 'posted_by', 'image', 'like', 'dis_like'
     ];
     public function tags(){
-        return $this->belongsToMany('App\Model\User\Tag', 'post_tag');
+        return $this->belongsToMany('App\Model\User\Tag');
     }
     public function categories(){
-        return $this->belongsToMany('App\Model\User\Category', 'post_category');
+        return $this->belongsToMany('App\Model\User\Category');
     }
     public function getRouteKeyName()
     {

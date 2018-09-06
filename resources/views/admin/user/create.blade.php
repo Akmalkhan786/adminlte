@@ -7,13 +7,7 @@
         <section class="content-header">
             <h1>
                 User Create
-                <small>Advanced form element</small>
             </h1>
-            <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="#">Forms</a></li>
-                <li class="active">Editors</li>
-            </ol>
         </section>
 
         <!-- Main content -->
@@ -25,59 +19,61 @@
                         <div class="box-header with-border">
                             <h3 class="box-title">User</h3>
                         </div>
+                        @include('inc.messages')
                         <!-- /.box-header -->
                         <!-- form start -->
-                        <form role="form">
+                        <form role="form" action="{{route('user.store')}}" method="post">
+                            @csrf
                             <div class="box-body">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="name">Name</label>
-                                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter name">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="sub_title">Sub Title</label>
-                                        <input type="text" name="sub_title" class="form-control" id="sub_title" placeholder="Sub title">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="slug">Slug</label>
-                                        <input type="text" name="slug" class="form-control" id="slug" placeholder="slug">
+                                <div class="input-group">
+                                    <span class="input-group-addon bg-blue"><span class="glyphicon glyphicon-user"></span></span>
+                                    <input type="text" name="name" class="form-control" placeholder="Enter Name">
+                                </div>
+                                <br>
+                                <div class="input-group">
+                                    <span class="input-group-addon bg-green"><span class="glyphicon glyphicon-envelope"></span></span>
+                                    <input type="email" name="email" class="form-control" placeholder="Enter Email">
+                                </div>
+                                <br>
+                                <div class="input-group">
+                                    <span class="input-group-addon bg-aqua"><i class="fa fa-key"></i></span>
+                                    <input type="password" name="password" class="form-control" placeholder="Enter Password">
+                                </div>
+                                <br>
+                                <div class="input-group">
+                                    <span class="input-group-addon bg-blue-gradient"><span class="glyphicon glyphicon-ok"></span></span>
+                                    <input type="password" name="confirm-password" class="form-control" placeholder="Confirm Password">
+                                </div>
+                                <br>
+                                <div class="input-group">
+                                    <span class="input-group-addon bg-aqua-gradient"><span class="glyphicon glyphicon-phone"></span></span>
+                                    <input type="text" name="phone" class="form-control" placeholder="Enter Phone">
+                                </div>
+                                <br>
+                                <div class="form-group">
+                                    <label>Assign Role</label>
+                                    <div class="row">
+                                        @foreach($roles as $role)
+                                            <div class="col-md-3">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" name="role[]" value="{{$role->id}}"> {{$role->name}}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="image">Image</label>
-                                        <input type="file" id="image" name="image">
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox" name="status"> Publish
-                                        </label>
-                                    </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="status"> Publish
+                                    </label>
                                 </div>
                             </div>
                             <!-- /.box-body -->
-
-                            <div class="box">
-                                <div class="box-header">
-                                    <h3 class="box-title">Blog Body
-                                        <small>Simple and fast</small>
-                                    </h3>
-                                    <!-- tools box -->
-                                    <div class="pull-right box-tools">
-                                        <button type="button" class="btn btn-default btn-sm" data-widget="collapse" data-toggle="tooltip"
-                                                title="Collapse">
-                                            <i class="fa fa-minus"></i></button>
-                                    </div>
-                                    <!-- /. tools -->
-                                </div>
-                                <!-- /.box-header -->
-                                <div class="box-body pad">
-                                    <textarea class="textarea" placeholder="Place some text here" name="body"
-                          style="width: 100%; height: 500px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-                                </div>
-                            </div>
                             <div class="box-footer">
-                                <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" name="submit" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-upload"></span> Submit</button>
+                                <a class="btn btn-warning btn-lg" href="{{route('user.index')}}"><span class="glyphicon glyphicon-backward"></span> Back</a>
                             </div>
                         </form>
                     </div>
@@ -90,11 +86,4 @@
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-@endsection
-@section('scripts')
-    <script>
-        $(function () {
-            $('.textarea').wysihtml5();
-        });
-    </script>
 @endsection
