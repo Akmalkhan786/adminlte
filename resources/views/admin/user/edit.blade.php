@@ -6,55 +6,45 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                User Create
+                User Update
             </h1>
         </section>
 
         <!-- Main content -->
         <section class="content">
-            <div class="row for-form-margins">
-                <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-8">
                     <!-- general form elements -->
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Add Admin</h3>
+                            <h3 class="box-title">User</h3>
                         </div>
-                        @include('inc.messages')
-                        <!-- /.box-header -->
+                    @include('inc.messages')
+                    <!-- /.box-header -->
                         <!-- form start -->
-                        <form role="form" action="{{route('user.store')}}" method="post" enctype="multipart/form-data">
+                        <form role="form" action="{{route('user.update', $user->id)}}" method="post" enctype="multipart/form-data">
                             @csrf
+                            @method('PUT')
                             <div class="box-body">
                                 <div class="input-group">
                                     <span class="input-group-addon bg-blue"><span class="glyphicon glyphicon-user"></span></span>
-                                    <input type="text" name="name" class="form-control" placeholder="Enter Name" value="{{old('name')}}">
+                                    <input type="text" name="name" class="form-control" placeholder="Enter Name" value="@if(old('name')) {{old('name')}} @else {{$user->name}} @endif">
                                 </div>
                                 <br>
                                 <div class="input-group">
                                     <span class="input-group-addon bg-green"><span class="glyphicon glyphicon-envelope"></span></span>
-                                    <input type="email" name="email" class="form-control" placeholder="Enter Email" value="{{old('email')}}">
-                                </div>
-                                <br>
-                                <div class="input-group">
-                                    <span class="input-group-addon bg-aqua"><i class="fa fa-key"></i></span>
-                                    <input type="password" name="password" class="form-control" placeholder="Enter Password" value="{{old('password')}}">
-                                </div>
-                                <br>
-                                <div class="input-group">
-                                    <span class="input-group-addon bg-blue-gradient"><span class="glyphicon glyphicon-ok"></span></span>
-                                    <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" placeholder="Confirm Password">
+                                    <input type="email" name="email" class="form-control" placeholder="Enter Email" value="@if(old('email')) {{old('email')}} @else {{$user->email}} @endif">
                                 </div>
                                 <br>
                                 <div class="input-group">
                                     <span class="input-group-addon bg-aqua-gradient"><span class="glyphicon glyphicon-phone"></span></span>
-                                    <input type="text" name="phone" class="form-control" placeholder="Enter Phone" value="{{old('phone')}}">
+                                    <input type="text" name="phone" class="form-control" placeholder="Enter Phone" value="@if(old('phone')) {{old('phone')}} @else {{$user->phone}} @endif">
                                 </div>
                                 <br>
                                 <div class="input-group">
-                                    <span class="input-group-addon bg-red"><span class="glyphicon glyphicon-picture"></span></span>
+                                    <span class="input-group-addon bg-light-blue-gradient"><span class="glyphicon glyphicon-picture"></span></span>
                                     <input type="file" class="form-control" name="image">
                                 </div>
-                                <br>
                                 <div class="form-group">
                                     <label>Assign Role</label>
                                     <div class="row">
@@ -62,7 +52,13 @@
                                             <div class="col-md-3">
                                                 <div class="checkbox">
                                                     <label>
-                                                        <input type="checkbox" name="role[]" value="{{$role->id}}"> {{$role->name}}
+                                                        <input type="checkbox" name="role[]" value="{{$role->id}}"
+                                                               @foreach($user->roles as $user_role)
+                                                                   @if($user_role->id == $role->id)
+                                                                       checked
+                                                                    @endif
+                                                               @endforeach
+                                                        > {{$role->name}}
                                                     </label>
                                                 </div>
                                             </div>
@@ -73,7 +69,7 @@
                                     <label for="status">Status</label>
                                     <div class="checkbox">
                                         <label>
-                                            <input id="status" type="checkbox" name="status" @if(old('status') == 1) checked @endif value="1"> Publish
+                                            <input id="status" type="checkbox" name="status" @if(old('status') == 1 || $user->status == 1) checked @endif value="1"> Publish
                                         </label>
                                     </div>
                                 </div>
@@ -86,6 +82,9 @@
                         </form>
                     </div>
                     <!-- /.box -->
+                </div>
+                <div class="col-md-4">
+                    <img src="/uploads/user/{{$user->image}}" class="img-thumbnail">
                 </div>
                 <!-- /.col-->
             </div>

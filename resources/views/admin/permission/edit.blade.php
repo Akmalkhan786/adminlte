@@ -29,6 +29,15 @@
                                     <label for="name">Name</label>
                                     <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" value="{{$permission->name}}">
                                 </div>
+                                <div class="form-group">
+                                    <label for="for">Permission For</label>
+                                    <select name="for" id="for" class="form-control">
+                                        <option selected disabled>Select Permission For</option>
+                                        <option value="post">Post</option>
+                                        <option value="user">User</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="box-footer">
                                 <button type="submit" class="btn btn-primary btn-lg"><span class="fa fa-upload"></span> Submit</button>

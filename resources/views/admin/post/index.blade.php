@@ -12,7 +12,9 @@
                 <div class="box-header">
                     <div class="row">
                         <div class="col-md-12">
-                            <a class="btn btn-success btn-lg pull-right" href="{{route('post.create')}}"><span class="fa fa-plus"></span> Add Post</a>
+                            {{--@can('posts.create', Auth::user())--}}
+                                <a class="btn btn-success btn-lg pull-right" href="{{route('post.create')}}"><span class="fa fa-plus"></span> Add Post</a>
+                            {{--@endcan--}}
                             <h3 class="box-title">All Posts</h3>
                         </div>
                     </div>
@@ -31,8 +33,12 @@
                                 <th>Image</th>
                                 <th>Created At</th>
                                 <th>Updated At</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
+                                {{--@can('posts.update', Auth::user())--}}
+                                    <th>Edit</th>
+                                {{--@endcan--}}
+                                {{--@can('posts.delete', Auth::user())--}}
+                                    <th>Delete</th>
+                                {{--@endcan--}}
                                 {{--<th>Delete</th>--}}
                             </tr>
                             </thead>
@@ -40,8 +46,8 @@
                                 <tbody>
                                 <tr>
                                     <td>{{$key + 1}}</td>
-                                    <td>{{$post->title}}</td>
-                                    <td>{{$post->sub_title}}</td>
+                                    <td>{{ substr($post->title, 0, 3) }}...</td>
+                                    <td>{{substr($post->sub_title, 0, 3)}}...</td>
                                     <td>{{$post->slug}}</td>
                                     <td>
                                         @if($post->image)
@@ -52,7 +58,10 @@
                                     </td>
                                     <td>{{$post->created_at ? $post->created_at->diffForHumans() : 'No date'}}</td>
                                     <td>{{$post->updated_at ? $post->updated_at->diffForHumans() : 'No date'}}</td>
-                                    <td><a class="btn btn-warning btn-flat" href="{{route('post.edit', $post->id)}}"><span class="glyphicon glyphicon-edit"></span></a></td>
+                                    {{--@can('posts.update', Auth::user())--}}
+                                        <td><a class="btn btn-warning btn-flat" href="{{route('post.edit', $post->id)}}"><span class="glyphicon glyphicon-edit"></span></a></td>
+                                    {{--@endcan--}}
+                                    {{--@can('posts.delete', Auth::user())--}}
                                      <td>   <form style="display: none;" id="delete-form-{{$post->id}}" action="{{route('post.destroy', $post->id)}}" method="post">
                                             @csrf
                                             @method('DELETE')
@@ -66,6 +75,7 @@
                                                 }
                                                 " class="btn btn-danger btn-flat"><span class="glyphicon glyphicon-trash"></span></a>
                                     </td>
+                                    {{--@endcan--}}
                                 </tr>
                                 </tbody>
                             @endforeach
@@ -75,9 +85,15 @@
                                 <th>Title</th>
                                 <th>Sub Title</th>
                                 <th>Slug</th>
+                                <th>Image</th>
                                 <th>Created At</th>
                                 <th>Updated At</th>
-                                <th>Action</th>
+                                {{--@can('posts.update', Auth::user())--}}
+                                    <th>Edit</th>
+                                {{--@endcan--}}
+                                {{--@can('posts.delete', Auth::user())--}}
+                                    <th>Delete</th>
+                                {{--@endcan--}}
                                 {{--<th>Delete</th>--}}
                             </tr>
                             </tfoot>

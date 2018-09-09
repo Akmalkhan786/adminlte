@@ -11,7 +11,7 @@
 
         <!-- Main content -->
         <section class="content">
-            <div class="row">
+            <div class="row for-form-margins">
                 <div class="col-md-12">
                     <!-- general form elements -->
                     <div class="box box-primary">

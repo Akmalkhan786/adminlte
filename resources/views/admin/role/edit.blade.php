@@ -29,6 +29,62 @@
                                     <label for="name">Name</label>
                                     <input type="text" class="form-control" id="name" name="name" placeholder="Enter name" value="{{$role->name}}">
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label>Posts Permissions</label>
+                                        @foreach($permissions as $permission)
+                                            @if($permission->for == 'post')
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" name="permissions[]" value="{{$permission->id}}"
+                                                               @foreach($role->permissions as $role_permit)
+                                                                   @if($role_permit->id == $permission->id)
+                                                                       checked
+                                                                   @endif
+                                                               @endforeach
+                                                        >{{$permission->name}}
+                                                    </label>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Users Permissions</label>
+                                        @foreach($permissions as $permission)
+                                            @if($permission->for == 'user')
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" name="permissions[]" value="{{$permission->id}}"
+                                                               @foreach($role->permissions as $role_permit)
+                                                                   @if($role_permit->id == $permission->id)
+                                                                       checked
+                                                                   @endif
+                                                               @endforeach
+                                                        >{{$permission->name}}
+                                                    </label>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Other Permissions</label>
+                                        @foreach($permissions as $permission)
+                                            @if($permission->for == 'other')
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox" name="permissions[]" value="{{$permission->id}}"
+                                                               @foreach($role->permissions as $role_permit)
+                                                                   @if($role_permit->id == $permission->id)
+                                                                       checked
+                                                                    @endif
+                                                               @endforeach
+                                                        >{{$permission->name}}
+                                                    </label>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                </div>
                             </div>
                             <div class="box-footer">
                                 <button type="submit" class="btn btn-primary btn-lg"><span class="fa fa-upload"></span> Submit</button>

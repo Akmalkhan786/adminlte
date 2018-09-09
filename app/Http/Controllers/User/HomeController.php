@@ -24,4 +24,12 @@ class HomeController extends Controller
         $posts = $category->posts();
         return view('user.blog', compact('posts'));
     }
+
+    public function about(){
+        return view('user.about');
+    }
+
+    public function contact(){
+        return view('user.contact');
+    }
 }

@@ -11,7 +11,7 @@
 
         <!-- Main content -->
         <section class="content">
-            <div class="row">
+            <div class="row for-form-margins">
                 <div class="col-md-12">
                     <!-- general form elements -->
                     <div class="box box-primary">
@@ -35,7 +35,7 @@
                                             @if($permission->for == 'post')
                                                 <div class="checkbox">
                                                     <label>
-                                                        <input type="checkbox" value="{{$permission->id}}">{{$permission->name}}
+                                                        <input type="checkbox" name="permissions[]" value="{{$permission->id}}">{{$permission->name}}
                                                     </label>
                                                 </div>
                                             @endif
@@ -47,7 +47,7 @@
                                             @if($permission->for == 'user')
                                                 <div class="checkbox">
                                                     <label>
-                                                        <input type="checkbox" value="{{$permission->id}}">{{$permission->name}}
+                                                        <input type="checkbox" name="permissions[]" value="{{$permission->id}}">{{$permission->name}}
                                                     </label>
                                                 </div>
                                             @endif
@@ -59,7 +59,7 @@
                                             @if($permission->for == 'other')
                                                 <div class="checkbox">
                                                     <label>
-                                                        <input type="checkbox" value="{{$permission->id}}">{{$permission->name}}
+                                                        <input type="checkbox" name="permissions[]" value="{{$permission->id}}">{{$permission->name}}
                                                     </label>
                                                 </div>
                                             @endif

@@ -30,7 +30,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
     <div class="login-logo">
-        <a href="../../index2.html"><b>Admin</b>LTE</a>
+        <a href="{{route('admin.home')}}"><b>Admin</b>LTE</a>
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
@@ -49,11 +49,11 @@
             </div>
             <div class="row">
                 <div class="col-xs-8">
-                    <div class="checkbox icheck">
-                        <label>
-                            <input type="checkbox"> Remember Me
-                        </label>
-                    </div>
+                    {{--<div class="checkbox icheck">--}}
+                        {{--<label>--}}
+                            {{--<input type="checkbox"> Remember Me--}}
+                        {{--</label>--}}
+                    {{--</div>--}}
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-4">
@@ -64,7 +64,7 @@
         </form>
         <!-- /.social-auth-links -->
 
-        <a href="#">I forgot my password</a><br>
+        {{--<a href="#">I forgot my password</a><br>--}}
         <a href="register.html" class="text-center">Register a new membership</a>
 
     </div>

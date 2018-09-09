@@ -50,6 +50,7 @@ class RoleController extends Controller
         $role = new Role;
         $role->name = $request->input('name');
         $role->save();
+        $role->permissions()->sync($request->permissions);
         return redirect(route('role.index'))->with('success', 'Role Created');
     }
 
@@ -73,7 +74,8 @@ class RoleController extends Controller
     public function edit($id)
     {
         $role = Role::findOrFail($id);
-        return view('admin.role.edit', compact('role'));
+        $permissions = Permission::all();
+        return view('admin.role.edit', compact('role', 'permissions'));
     }
 
     /**
@@ -91,6 +93,7 @@ class RoleController extends Controller
         $role = Role::findOrFail($id);
         $role->name = $request->input('name');
         $role->save();
+        $role->permissions()->sync($request->permissions);
         return redirect(route('role.index'))->with('success', 'Role Updated');
     }
 
