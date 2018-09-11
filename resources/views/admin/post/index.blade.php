@@ -21,7 +21,7 @@
                 </div>
             @include('inc.messages')
             <!-- /.box-header -->
-                <div class="box-body">
+                <div class="box-body table-responsive">
                     @if(count($posts) > 0)
                         <table id="example1" class="table table-bordered table-striped">
                             <thead class="bg-primary">
@@ -49,7 +49,7 @@
                                     <td>{{$key + 1}}</td>
                                     <td>{{ substr($post->title, 0, 3) }}...</td>
                                     <td>{{substr($post->sub_title, 0, 3)}}...</td>
-                                    <td>{{$post->slug}}</td>
+                                    <td>{{substr($post->slug, 0, 40)}}...</td>
                                     <td>
                                         @if($post->image)
                                             <img height="50" src="/uploads/post/{{$post->image}}">

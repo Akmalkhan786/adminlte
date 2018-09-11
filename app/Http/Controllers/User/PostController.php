@@ -15,7 +15,7 @@ class PostController extends Controller
     }
 
     public function getAllPosts(){
-       return $posts = Post::with('likes')->where('status', 1)->orderBy('created_at', 'desc')->paginate(5);
+       return $posts = Post::with('likes')->where('status', 1)->orderBy('id', 'desc')->paginate(5);
     }
 
     public function saveLike(Request $request){
