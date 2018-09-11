@@ -19,7 +19,7 @@
                 </div>
             @include('inc.messages')
             <!-- /.box-header -->
-                <div class="box-body">
+                <div class="box-body table-responsive">
                     @if(count($users) > 0)
                         <table id="example1" class="table table-bordered table-striped table-hover">
                             <thead class="bg-light-blue-gradient">

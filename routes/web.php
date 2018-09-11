@@ -19,11 +19,14 @@ Route::group(['namespace' => 'User'], function (){
     Route::get('/post/{post}', 'PostController@post')->name('post');
     Route::get('post/tag/{tag}', 'HomeController@tag')->name('tag');
     Route::get('post/Category/{category}', 'HomeController@category')->name('category');
+    Route::post('getPosts', 'PostController@getAllPosts');
+    Route::post('saveLike', 'PostController@saveLike');
 });
 
 // Admin Routes
 Route::group(['namespace' => 'Admin'], function (){
     Route::get('admin/home', 'HomeController@index')->name('admin.home');
+    Route::get('admin/user/{id}', 'HomeController@profile')->name('user.profile');
     Route::resource('admin/user', 'UserController');
     Route::resource('admin/role', 'RoleController');
     Route::resource('admin/permission', 'PermissionController');

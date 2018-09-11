@@ -16,3 +16,5 @@
 
 <!-- Custom styles for this template -->
 <link href="{{asset('user/css/clean-blog.min.css')}}" rel="stylesheet">
+
+@yield('styles')

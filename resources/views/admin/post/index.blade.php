@@ -31,6 +31,7 @@
                                 <th>Sub Title</th>
                                 <th>Slug</th>
                                 <th>Image</th>
+                                <th>Status</th>
                                 <th>Created At</th>
                                 <th>Updated At</th>
                                 {{--@can('posts.update', Auth::user())--}}
@@ -56,8 +57,15 @@
                                             <p>No image</p>
                                         @endif
                                     </td>
-                                    <td>{{$post->created_at ? $post->created_at->diffForHumans() : 'No date'}}</td>
-                                    <td>{{$post->updated_at ? $post->updated_at->diffForHumans() : 'No date'}}</td>
+                                    <td>
+                                        @if($post->status == 0)
+                                            <span class="badge bg-red">Not Active</span>
+                                        @else
+                                            <span class="badge bg-green">Active</span>
+                                        @endif
+                                    </td>
+                                    <td>{{$post->created_at ? $post->created_at : 'No date'}}</td>
+                                    <td>{{$post->updated_at ? $post->updated_at : 'No date'}}</td>
                                     {{--@can('posts.update', Auth::user())--}}
                                         <td><a class="btn btn-warning btn-flat" href="{{route('post.edit', $post->id)}}"><span class="glyphicon glyphicon-edit"></span></a></td>
                                     {{--@endcan--}}
@@ -86,6 +94,7 @@
                                 <th>Sub Title</th>
                                 <th>Slug</th>
                                 <th>Image</th>
+                                <th>Status</th>
                                 <th>Created At</th>
                                 <th>Updated At</th>
                                 {{--@can('posts.update', Auth::user())--}}
